@@ -2,7 +2,7 @@ spring:
   application:
     name: team-quest
   datasource:
-    url: jdbc:postgresql://localhost:5432/team_quest
+    url: jdbc:postgresql://localhost:5432/team_quest?currentSchema=tq
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -11,7 +11,17 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
+#    properties:
+#      hibernate:
+#        default_schema: tq
   liquibase:
     change-log: classpath:/db/changelog.yaml
+    liquibase-schema: tq
+#  servlet:
+#    multipart:
+#      max-file-size: 1MB
+#      max-request-size: 10MB
+#      enabled: true
+#      location: classpath:/file_temp
 
 

@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/script/quest/create-quest-type.sql
+  - include:
+      file: db/script/quest/create-quest.sql
+  - include:
+      file: db/script/quest/create-quest-image.sql
