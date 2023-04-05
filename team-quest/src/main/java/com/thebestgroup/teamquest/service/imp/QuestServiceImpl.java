@@ -1,11 +1,13 @@
 package com.thebestgroup.teamquest.service.imp;
 
+import com.querydsl.core.types.Predicate;
 import com.thebestgroup.teamquest.exception.type.NotFoundException;
 import com.thebestgroup.teamquest.model.dto.filter.QuestFilter;
 import com.thebestgroup.teamquest.model.dto.quest.QuestDto;
 import com.thebestgroup.teamquest.model.entity.Quest;
 import com.thebestgroup.teamquest.model.mapper.QuestMapper;
 import com.thebestgroup.teamquest.repository.QuestRepository;
+import com.thebestgroup.teamquest.repository.helper.QPredicate;
 import com.thebestgroup.teamquest.service.QuestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.thebestgroup.teamquest.model.entity.QQuest.quest;
 
 @Slf4j
 @Service
@@ -25,11 +29,15 @@ class QuestServiceImpl implements QuestService {
 
     @Override
     public Page<QuestDto> findQuests(QuestFilter filter, Pageable page) {
-//        QPredicate predicate = QPredicate.builder()
-//                .add(filter.type(), QQ)
+        Predicate predicate = QPredicate.builder()
+                .add(filter.type(), quest.type::eq)
+                .add(filter.age(), quest.age.min::loe)
+                .add(filter.personNum(), personNum ->
+                        quest.personNum.min.loe(personNum)
+                                .and(quest.personNum.max.goe(personNum)))
+                .build();
 
-
-        return questRepository.findAll(page).map(questMapper::toDto);
+        return questRepository.findAll(predicate, page).map(questMapper::toDto);
     }
 
     @Override
