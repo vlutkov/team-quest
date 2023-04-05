@@ -3,6 +3,7 @@ package com.thebestgroup.teamquest.controller;
 import com.thebestgroup.teamquest.model.dto.PageDto;
 import com.thebestgroup.teamquest.model.dto.filter.QuestFilter;
 import com.thebestgroup.teamquest.model.dto.quest.QuestDto;
+import com.thebestgroup.teamquest.model.dto.quest.SaveQuestDto;
 import com.thebestgroup.teamquest.model.mapper.PageMapper;
 import com.thebestgroup.teamquest.service.QuestService;
 import jakarta.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -53,6 +55,14 @@ public class QuestController {
     public QuestDto saveQuest(@NotNull(message = "Не передан объект квеста")
                               @RequestBody(required = false)
                               @Valid QuestDto questDto) {
+
+        return questService.addQuest(questDto);
+    }
+
+    @PostMapping("/save")
+    public QuestDto saveQuest_Save(@NotNull(message = "Не передан объект квеста")
+                                   @ModelAttribute
+                                   @Valid SaveQuestDto questDto) {
 
         return questService.addQuest(questDto);
     }

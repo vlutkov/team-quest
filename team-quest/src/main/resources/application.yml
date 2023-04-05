@@ -17,10 +17,10 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog.yaml
     liquibase-schema: tq
-#  servlet:
-#    multipart:
-#      max-file-size: 1MB
-#      max-request-size: 10MB
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 1MB
 #      enabled: true
 #      location: classpath:/file_temp
 
