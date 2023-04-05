@@ -24,4 +24,11 @@ spring:
 #      enabled: true
 #      location: classpath:/file_temp
 
+#springdoc:
+#  api-docs:
+#    path: /v3/api-docs/
+#    enabled: true
+#  swagger-ui:
+#    config-url: /swagger-ui.html
+#    enabled: true
 

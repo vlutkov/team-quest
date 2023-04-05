@@ -1,8 +1,8 @@
 package com.thebestgroup.teamquest.service.imp;
 
 import com.thebestgroup.teamquest.exception.type.NotFoundException;
-import com.thebestgroup.teamquest.model.dto.quest.QuestDto;
 import com.thebestgroup.teamquest.model.dto.filter.QuestFilter;
+import com.thebestgroup.teamquest.model.dto.quest.QuestDto;
 import com.thebestgroup.teamquest.model.entity.Quest;
 import com.thebestgroup.teamquest.model.mapper.QuestMapper;
 import com.thebestgroup.teamquest.repository.QuestRepository;
@@ -18,13 +18,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class QuestServiceImpl implements QuestService {
+class QuestServiceImpl implements QuestService {
 
     private final QuestRepository questRepository;
     private final QuestMapper questMapper;
 
     @Override
     public Page<QuestDto> findQuests(QuestFilter filter, Pageable page) {
+//        QPredicate predicate = QPredicate.builder()
+//                .add(filter.type(), QQ)
+
 
         return questRepository.findAll(page).map(questMapper::toDto);
     }

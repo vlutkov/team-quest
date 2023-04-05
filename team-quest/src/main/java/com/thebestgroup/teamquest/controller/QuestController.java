@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
@@ -34,6 +35,7 @@ public class QuestController {
 
     @GetMapping
     public PageDto<QuestDto> findQuests(QuestFilter filter,
+                                        @ParameterObject
                                         @PageableDefault Pageable page) {
 
         return pageMapper.toPageDto(questService.findQuests(filter, page));
