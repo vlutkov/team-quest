@@ -9,8 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.math.BigDecimal;
 
 @Builder
-public record SaveQuestDto(Long id,
-                           @NotEmpty(message = "Не передано наименование квеста")
+public record SaveQuestDto(@NotEmpty(message = "Не передано наименование квеста")
                            String name,
                            @NotNull(message = "Не задан тип квеста")
                            Short type,

@@ -10,34 +10,21 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id", callSuper = true)
 @Entity
-@Table(name = "quest")
-public class Quest extends BaseEntity {
+@Table(name = "storage_file")
+public class StorageFile extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String fileName;
     @Column(nullable = false)
-    private Short type;
-    private Age age;
-    private PersonNum personNum;
+    private byte[] data;
     @Column(nullable = false)
-    private Short complexity;
-    @Column(nullable = false)
-    private Double rating;
-    @Column(nullable = false)
-    private BigDecimal startPrice;
-    @Column(nullable = false)
-    private Short spentTime;
-    @Column(nullable = false)
-    private String description;
-    @Column(nullable = false)
-    private Long imageId;
+    private Integer size;
+    private String extension;
 }

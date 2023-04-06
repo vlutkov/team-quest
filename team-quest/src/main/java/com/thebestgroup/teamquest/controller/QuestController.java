@@ -56,7 +56,7 @@ public class QuestController {
                               @RequestBody(required = false)
                               @Valid QuestDto questDto) {
 
-        return questService.addQuest(questDto);
+        return questService.saveQuest(questDto);
     }
 
     @PostMapping("/save")
@@ -64,7 +64,7 @@ public class QuestController {
                                    @ModelAttribute
                                    @Valid SaveQuestDto questDto) {
 
-        return questService.addQuest(questDto);
+        return questService.saveQuest(questDto);
     }
 
     @PutMapping("/{questId}")

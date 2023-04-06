@@ -1,14 +1,17 @@
-package com.thebestgroup.teamquest.service.imp;
+package com.thebestgroup.teamquest.service.impl;
 
 import com.querydsl.core.types.Predicate;
 import com.thebestgroup.teamquest.exception.type.NotFoundException;
+import com.thebestgroup.teamquest.filestorage.service.FileStorageService;
 import com.thebestgroup.teamquest.model.dto.filter.QuestFilter;
 import com.thebestgroup.teamquest.model.dto.quest.QuestDto;
+import com.thebestgroup.teamquest.model.dto.quest.SaveQuestDto;
 import com.thebestgroup.teamquest.model.entity.Quest;
 import com.thebestgroup.teamquest.model.mapper.QuestMapper;
 import com.thebestgroup.teamquest.repository.QuestRepository;
 import com.thebestgroup.teamquest.repository.helper.QPredicate;
 import com.thebestgroup.teamquest.service.QuestService;
+import com.thebestgroup.teamquest.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,6 +29,7 @@ class QuestServiceImpl implements QuestService {
 
     private final QuestRepository questRepository;
     private final QuestMapper questMapper;
+    private final FileStorageService fileStorageService;
 
     @Override
     public Page<QuestDto> findQuests(QuestFilter filter, Pageable page) {
@@ -55,11 +59,25 @@ class QuestServiceImpl implements QuestService {
 
     @Override
     @Transactional
-    public QuestDto addQuest(QuestDto questDto) {
+    public QuestDto saveQuest(QuestDto questDto) {
         Quest quest = questRepository.save(questMapper.toEntity(questDto));
 
         return questMapper.toDto(quest);
     }
+
+    @Override
+    @Transactional
+    public QuestDto saveQuest(SaveQuestDto questDto) {
+        Long fileId = fileStorageService.upload(
+                questDto.image().getName(),
+                FileUtils.getBytes(questDto.image())
+        );
+
+        Quest quest = questRepository.save(questMapper.toEntity(questDto, fileId));
+
+        return questMapper.toDto(quest);
+    }
+
 
     @Override
     @Transactional
