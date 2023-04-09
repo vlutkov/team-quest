@@ -2,7 +2,7 @@ package com.thebestgroup.teamquest.service.impl;
 
 import com.querydsl.core.types.Predicate;
 import com.thebestgroup.teamquest.exception.type.NotFoundException;
-import com.thebestgroup.teamquest.filestorage.service.FileStorageService;
+import com.thebestgroup.teamquest.service.FileStorageService;
 import com.thebestgroup.teamquest.model.dto.filter.QuestFilter;
 import com.thebestgroup.teamquest.model.dto.quest.QuestDto;
 import com.thebestgroup.teamquest.model.dto.quest.SaveQuestDto;
@@ -68,11 +68,12 @@ class QuestServiceImpl implements QuestService {
     @Override
     @Transactional
     public QuestDto saveQuest(SaveQuestDto questDto) {
-        Long fileId = fileStorageService.upload(
-                questDto.image().getName(),
-                FileUtils.getBytes(questDto.image())
-        );
+//        Long fileId = fileStorageService.upload(
+//                questDto.image().getName(),
+//                FileUtils.getBytes(questDto.image())
+//        );
 
+        Long fileId = null;
         Quest quest = questRepository.save(questMapper.toEntity(questDto, fileId));
 
         return questMapper.toDto(quest);

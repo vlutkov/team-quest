@@ -1,4 +1,4 @@
-package com.thebestgroup.teamquest.filestorage.repository;
+package com.thebestgroup.teamquest.repository;
 
 import com.thebestgroup.teamquest.model.entity.StorageFile;
 import org.springframework.data.jpa.repository.JpaRepository;

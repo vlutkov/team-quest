@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -24,16 +23,16 @@ public record SaveQuestDto(@NotEmpty(message = "Не передано наиме
                            @NotNull(message = "Не задано время прохождения квеста")
                            Short spentTime,
                            @NotEmpty(message = "Не задано описание квеста")
-                           String description,
+                           String description/*,
                            @NotEmpty(message = "Не передана картинка для предпросмотра")
-                           MultipartFile image) {
+                           MultipartFile image*/) {
 
-    public record Age(@NotNull(message = "Не задан минимальный возврат для прохождения квеста")
-                      Short min,
-                      Short max) {
-    }
+//    public static record Age(@NotNull(message = "Не задан минимальный возврат для прохождения квеста")
+//                      Short min,
+//                      Short max) {
+//    }
 
-    public record PersonNum(@NotNull(message = "Не задан минимальное количество человек для прохождения квеста")
+    public static record PersonNum(@NotNull(message = "Не задан минимальное количество человек для прохождения квеста")
                             Short min,
                             @NotNull(message = "Не задано максимальное количество человек для прохождения квеста")
                             Short max) {

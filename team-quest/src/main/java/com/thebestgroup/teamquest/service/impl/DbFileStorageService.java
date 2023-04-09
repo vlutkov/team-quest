@@ -1,9 +1,9 @@
-package com.thebestgroup.teamquest.filestorage.service.impl;
+package com.thebestgroup.teamquest.service.impl;
 
 import com.thebestgroup.teamquest.exception.type.NotFoundException;
-import com.thebestgroup.teamquest.filestorage.repository.FileStorageRepository;
-import com.thebestgroup.teamquest.filestorage.service.FileStorageService;
 import com.thebestgroup.teamquest.model.entity.StorageFile;
+import com.thebestgroup.teamquest.repository.FileStorageRepository;
+import com.thebestgroup.teamquest.service.FileStorageService;
 import com.thebestgroup.teamquest.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,25 +19,27 @@ class DbFileStorageService implements FileStorageService {
 
     @Override
     @Transactional
-    public Long upload(String fileName, byte[] data) {
+    public Long upload(String filePath, byte[] data) {
         StorageFile file = new StorageFile();
-        file.setFileName(fileName);
+        file.setFileName(filePath);
         file.setData(data);
         file.setSize(data.length);
-        file.setExtension(FileUtils.extractExtension(fileName));
+        file.setExtension(FileUtils.extractExtension(filePath));
 
         return fileStorageRepository.saveAndFlush(file).getId();
     }
 
     @Override
     @Transactional
-    public byte[] download(Long fileId) {
-        StorageFile file = fileStorageRepository.findById(fileId)
-                .orElseThrow(() -> {
-                    log.info("Не найден файл с id = {}", fileId);
-                    return new NotFoundException("Не найден файл с id = %s".formatted(fileId));
-                });
+    public byte[] download(String filePath) {
+//        StorageFile file = fileStorageRepository.findById(filePath)
+//                .orElseThrow(() -> {
+//                    log.info("Не найден файл с id = {}", filePath);
+//                    return new NotFoundException("Не найден файл с id = %s".formatted(filePath));
+//                });
+//
+//        return file.getData();
 
-        return file.getData();
+        return null;
     }
 }
