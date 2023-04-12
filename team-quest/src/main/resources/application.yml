@@ -26,13 +26,15 @@ spring:
       max-request-size: 1MB
 
 file-storage:
-  url: http://localhost:${server.port}/api/v1/filestorage
+  url:
+#    root: http://localhost:${server.port}/api/v1/filestorage
+    download: http://localhost:${server.port}/api/v1/filestorage/download
   file:
     bucket: /home/ulutkou/Projects/team-quest/app-files
 
-quest:
-  image:
-    bucket: users/:user/quests/images
+#quest:
+#  image:
+#    bucket: users/:user/quests/images
 #      enabled: true
 #      location: classpath:/file_temp
 

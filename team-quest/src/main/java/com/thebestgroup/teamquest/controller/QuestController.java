@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
-
 @Validated
 @RestController
 @RequestMapping("/api/v1/quests")
@@ -45,21 +44,13 @@ public class QuestController {
         return questService.findQuest(questId);
     }
 
-//    @PostMapping
-//    public QuestDto saveQuest(@NotNull(message = "Не передан объект квеста")
-//                              @RequestBody(required = false)
-//                              @Valid QuestDto questDto) {
-//
-//        return questService.saveQuest(questDto);
-//    }
-
-    @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public QuestDto saveQuest_Save(@NotNull(message = "Не передан объект квеста")
-                                   @Valid
-                                   @RequestPart
-                                   SaveQuestDto questDto,
-                                   @RequestPart
-                                   MultipartFile image) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public QuestDto saveQuest(@NotNull(message = "Не передан объект квеста")
+                              @Valid
+                              @RequestPart
+                              SaveQuestDto questDto,
+                              @RequestPart
+                              MultipartFile image) {
 
         return questService.saveQuest(questDto, image);
     }
@@ -70,10 +61,12 @@ public class QuestController {
                                 Long questId,
                                 @Valid
                                 @NotNull(message = "Не передан объект квеста")
-                                @RequestBody(required = false)
-                                QuestDto questDto) {
+                                @RequestPart(required = false)
+                                SaveQuestDto questDto,
+                                @RequestPart
+                                MultipartFile image) {
 
-        return questService.updateQuest(questId, questDto);
+        return questService.updateQuest(questId, questDto, image);
     }
 
     @DeleteMapping("/{questId}")

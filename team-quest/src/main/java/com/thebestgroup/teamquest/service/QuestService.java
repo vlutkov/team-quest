@@ -13,11 +13,9 @@ public interface QuestService {
 
     QuestDto findQuest(Long questId);
 
-    QuestDto saveQuest(QuestDto questDto);
-
     QuestDto saveQuest(SaveQuestDto questDto, MultipartFile image);
 
-    QuestDto updateQuest(Long questId, QuestDto questDto);
+    QuestDto updateQuest(Long questId, SaveQuestDto questDto, MultipartFile image);
 
     void deleteQuest(Long questId);
 

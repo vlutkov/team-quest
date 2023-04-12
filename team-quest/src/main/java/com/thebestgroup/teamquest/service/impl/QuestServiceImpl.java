@@ -9,9 +9,10 @@ import com.thebestgroup.teamquest.model.entity.Quest;
 import com.thebestgroup.teamquest.model.mapper.QuestMapper;
 import com.thebestgroup.teamquest.repository.QuestRepository;
 import com.thebestgroup.teamquest.repository.helper.QPredicate;
-import com.thebestgroup.teamquest.service.QuestImageFacade;
+import com.thebestgroup.teamquest.service.FileStorageService;
 import com.thebestgroup.teamquest.service.QuestService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +30,7 @@ class QuestServiceImpl implements QuestService {
 
     private final QuestRepository questRepository;
     private final QuestMapper questMapper;
-    private final QuestImageFacade questImageFacade;
+    private final FileStorageService fileStorageService;
 
     @Override
     public Page<QuestDto> findQuests(QuestFilter filter, Pageable page) {
@@ -57,23 +58,17 @@ class QuestServiceImpl implements QuestService {
         );
     }
 
-    @Override
-    @Transactional
-    public QuestDto saveQuest(QuestDto questDto) {
-        Quest quest = questRepository.save(questMapper.toEntity(questDto));
-
-        return questMapper.toDto(quest);
-    }
-
+    @SneakyThrows
     @Override
     @Transactional
     public QuestDto saveQuest(SaveQuestDto questDto, MultipartFile image) {
-        String imagePath = questImageFacade.saveImage(image);
-        Quest quest = questRepository.save(questMapper.toEntity(questDto, imagePath));
+        String imageName = fileStorageService.upload(image.getOriginalFilename(), image.getBytes());
+        Quest quest = questRepository.save(questMapper.toEntity(questDto, imageName));
 
         return questMapper.toDto(quest);
     }
 
+    @SneakyThrows
     @Override
     @Transactional
     public QuestDto updateQuest(Long questId, SaveQuestDto questDto, MultipartFile image) {
@@ -82,10 +77,13 @@ class QuestServiceImpl implements QuestService {
                     log.info("Не найден квест с id: {}", questId);
                     return new NotFoundException("Не найден квест с id: %s".formatted(questId));
                 });
+        String previousImage = quest.getImage();
 
-        String imagePath = questImageFacade.saveImage(image);
-        questMapper.update(quest, questDto);
+        String imageName = fileStorageService.upload(image.getOriginalFilename(), image.getBytes());
+        questMapper.update(quest, questDto, imageName);
         quest = questRepository.saveAndFlush(quest);
+
+        fileStorageService.delete(previousImage);
 
         return questMapper.toDto(quest);
     }
@@ -100,6 +98,7 @@ class QuestServiceImpl implements QuestService {
                 });
 
         questRepository.delete(quest);
+        fileStorageService.delete(quest.getImage());
     }
 
     @Override
@@ -110,7 +109,11 @@ class QuestServiceImpl implements QuestService {
                     return new NotFoundException("Не найден квест с id: %s".formatted(questId));
                 });
 
-        return questImageFacade.getImage(quest.getImage());
+        return fileStorageService.download(quest.getImage())
+                .orElseThrow(() -> {
+                    log.info("Не найден image по имени: {}", quest.getImage());
+                    return new NotFoundException("Не найден image по имени: %s".formatted(quest.getImage()));
+                });
     }
 }
 

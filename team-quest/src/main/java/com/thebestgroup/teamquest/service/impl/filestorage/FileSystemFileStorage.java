@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Optional;
+import java.util.UUID;
 
 @Primary
 @Slf4j
@@ -24,20 +25,30 @@ public class FileSystemFileStorage implements FileStorageService {
 
     @SneakyThrows
     @Override
-    public void upload(String filePath, byte[] content) {
-        Path fullFilePath = Path.of(bucket, filePath);
+    public String upload(String fileName, byte[] content) {
+        String uniqueFileName = UUID.randomUUID() + "-" + fileName;
+        Path fullFilePath = Path.of(bucket, uniqueFileName);
 
         Files.createDirectories(fullFilePath.getParent());
         Files.write(fullFilePath, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
+        return uniqueFileName;
     }
 
     @SneakyThrows
     @Override
-    public Optional<byte[]> download(String filePath) {
-        Path fullFilePath = Path.of(bucket, filePath);
+    public Optional<byte[]> download(String fileName) {
+        Path fullFilePath = Path.of(bucket, fileName);
 
         return Files.exists(fullFilePath)
                 ? Optional.of(Files.readAllBytes(fullFilePath))
                 : Optional.empty();
+    }
+
+    @SneakyThrows
+    @Override
+    public void delete(String fileName) {
+        Path fullFilePath = Path.of(bucket, fileName);
+        Files.deleteIfExists(fullFilePath);
     }
 }

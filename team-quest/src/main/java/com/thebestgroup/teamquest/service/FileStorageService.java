@@ -4,7 +4,9 @@ import java.util.Optional;
 
 public interface FileStorageService {
 
-    void upload(String filePath, byte[] content);
+    String upload(String filePath, byte[] content);
 
     Optional<byte[]> download(String filePath);
+
+    void delete(String previousImage);
 }
