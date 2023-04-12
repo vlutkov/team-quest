@@ -13,6 +13,7 @@ CREATE TABLE quest
     start_price    NUMERIC            NOT NULL,
     spent_time     SMALLINT           NOT NULL,
     description    TEXT               NOT NULL,
+    image          VARCHAR            NOT NULL,
     create_date    TIMESTAMP          NOT NULL DEFAULT NOW():: TIMESTAMP,
     update_date    TIMESTAMP
 );

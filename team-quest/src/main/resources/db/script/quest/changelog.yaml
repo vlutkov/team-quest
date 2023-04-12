@@ -5,7 +5,5 @@ databaseChangeLog:
       file: db/script/quest/create-quest.sql
   - include:
       file: db/script/quest/create-quest-image.sql
-  - include:
-      file: db/script/quest/create-storage-file.sql
-  - include:
-      file: db/script/quest/add-image-to-quest.sql
+#  - include:
+#      file: db/script/quest/create-storage-file.sql

@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: team-quest
@@ -21,6 +24,15 @@ spring:
     multipart:
       max-file-size: 1MB
       max-request-size: 1MB
+
+file-storage:
+  url: http://localhost:${server.port}/api/v1/filestorage
+  file:
+    bucket: /home/ulutkou/Projects/team-quest/app-files
+
+quest:
+  image:
+    bucket: users/:user/quests/images
 #      enabled: true
 #      location: classpath:/file_temp
 
@@ -31,4 +43,3 @@ spring:
 #  swagger-ui:
 #    config-url: /swagger-ui.html
 #    enabled: true
-

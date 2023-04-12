@@ -39,5 +39,5 @@ public class Quest extends BaseEntity {
     @Column(nullable = false)
     private String description;
     @Column(nullable = false)
-    private Long imageId;
+    private String image;
 }

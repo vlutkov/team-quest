@@ -15,23 +15,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 
 @Validated
 @RestController
-@RequestMapping("/api/v1/quest")
+@RequestMapping("/api/v1/quests")
 @RequiredArgsConstructor
 public class QuestController {
 
@@ -54,22 +45,23 @@ public class QuestController {
         return questService.findQuest(questId);
     }
 
-    @PostMapping
-    public QuestDto saveQuest(@NotNull(message = "Не передан объект квеста")
-                              @RequestBody(required = false)
-                              @Valid QuestDto questDto) {
+//    @PostMapping
+//    public QuestDto saveQuest(@NotNull(message = "Не передан объект квеста")
+//                              @RequestBody(required = false)
+//                              @Valid QuestDto questDto) {
+//
+//        return questService.saveQuest(questDto);
+//    }
 
-        return questService.saveQuest(questDto);
-    }
-
-    @PostMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public QuestDto saveQuest_Save(@NotNull(message = "Не передан объект квеста")
+                                   @Valid
                                    @RequestPart
-                                   @Valid SaveQuestDto questDto,
+                                   SaveQuestDto questDto,
                                    @RequestPart
                                    MultipartFile image) {
 
-        return questService.saveQuest(questDto);
+        return questService.saveQuest(questDto, image);
     }
 
     @PutMapping("/{questId}")
@@ -90,5 +82,13 @@ public class QuestController {
                             Long questId) {
 
         questService.deleteQuest(questId);
+    }
+
+    @GetMapping("/{questId}/images/primary")
+    public byte[] downloadPrimaryImage(@NotNull(message = "Не передан ИД квеста")
+                                       @PathVariable
+                                       Long questId) {
+
+        return questService.downloadPrimaryImage(questId);
     }
 }

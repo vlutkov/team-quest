@@ -1,8 +1,10 @@
 package com.thebestgroup.teamquest.service;
 
+import java.util.Optional;
+
 public interface FileStorageService {
 
-    Long upload(String filePath, byte[] content);
+    void upload(String filePath, byte[] content);
 
-    byte[] download(String filePath);
+    Optional<byte[]> download(String filePath);
 }

@@ -25,6 +25,5 @@ public class QuestImage extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quest_id")
     private Quest quest;
-    private Long external_image_id;
-    private Boolean isPreview;
+    private String imagePath;
 }

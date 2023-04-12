@@ -26,6 +26,7 @@ public record QuestDto(Long id,
                        Short spentTime,
                        @NotEmpty(message = "Не задано описание квеста")
                        String description,
+                       String image,
                        LocalDateTime createDate,
                        LocalDateTime updateDate) {
 

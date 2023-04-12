@@ -69,7 +69,8 @@ public class ProjectExceptionHandler {
     private ExceptionResponse buildResponse(HttpStatus httpStatus, Throwable e) {
 
         return buildResponse(httpStatus, Optional.ofNullable(e)
-                .map(Throwable::getMessage)
+                .map(ex -> Optional.of(ex.getMessage())
+                        .orElseGet(() -> ex.getCause().toString()))
                 .orElse(null));
     }
 
