@@ -5,7 +5,7 @@ spring:
   application:
     name: team-quest
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/team_quest?currentSchema=tq
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/team_quest?currentSchema=tq
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
